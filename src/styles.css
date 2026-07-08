@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary: #0F4C5C; /* Deep Teal */
+  --primary-hover: #156276;
+  --accent: #E36414; /* Coral */
+  --accent-hover: #C5530E;
+  --bg-color: #F8F9FA;
+  --text-main: #2b2d42;
+  --text-muted: #8d99ae;
+  --card-bg: #ffffff;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  
+  --radius: 8px;
+  --transition: all 0.2s ease-in-out;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+button {
+  transition: var(--transition);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+button:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}

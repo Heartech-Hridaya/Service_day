@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Food Bank Helpers",
+    "description": "Help sort and pack food donations for the local food bank.",
+    "date": "2026-08-15",
+    "location": "Downtown Community Center",
+    "maxSlots": 20,
+    "slotsTaken": 15,
+    "cutoffDateTime": "2026-08-10T17:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Park Clean Up",
+    "description": "Join us to clean up the city park and plant new trees.",
+    "date": "2026-08-22",
+    "location": "City Park",
+    "maxSlots": 50,
+    "slotsTaken": 20,
+    "cutoffDateTime": "2026-08-18T17:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Elderly Care Visits",
+    "description": "Spend time reading and talking to residents at the local nursing home.",
+    "date": "2026-09-05",
+    "location": "Sunrise Nursing Home",
+    "maxSlots": 10,
+    "slotsTaken": 10,
+    "cutoffDateTime": "2026-09-01T17:00:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Animal Shelter Volunteers",
+    "description": "Walk dogs and help clean cages at the animal shelter.",
+    "date": "2026-09-12",
+    "location": "Happy Tails Shelter",
+    "maxSlots": 15,
+    "slotsTaken": 5,
+    "cutoffDateTime": "2026-09-08T17:00:00Z"
+  }
+]

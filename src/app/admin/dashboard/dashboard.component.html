@@ -1,0 +1,30 @@
+<div class="dashboard-container">
+  <h2>Volunteering Dashboard</h2>
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let ngo of ngos$ | async">
+      <h3>{{ngo.name}}</h3>
+      <div class="stat-details">
+        <div class="stat-item">
+          <span class="label">Date</span>
+          <span class="value">{{ngo.date | date}}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">Total Slots</span>
+          <span class="value">{{ngo.maxSlots}}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">Slots Taken</span>
+          <span class="value">{{ngo.slotsTaken}}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">Remaining</span>
+          <span class="value">{{ngo.maxSlots - ngo.slotsTaken}}</span>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="(ngo.slotsTaken / ngo.maxSlots) * 100"></div>
+      </div>
+      <button class="btn-remind" (click)="sendReminder(ngo)">Send Reminder</button>
+    </div>
+  </div>
+</div>

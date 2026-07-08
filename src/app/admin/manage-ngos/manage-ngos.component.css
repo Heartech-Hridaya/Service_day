@@ -1,0 +1,145 @@
+.manage-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header-actions h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.table-responsive:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.ngo-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ngo-table th, .ngo-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.ngo-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.ngo-table input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.ngo-table input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.btn-edit { background-color: #f39c12; color: white; }
+.btn-delete { background-color: #e74c3c; color: white; }
+.btn-save { background-color: var(--primary); color: white; }
+.btn-cancel { background-color: var(--text-muted); color: white; }
+.btn-add { background-color: var(--accent); color: white; margin-top: 1rem; font-size: 1.1rem; padding: 0.8rem;}
+.btn-add:hover { background-color: var(--accent-hover); }
+
+.add-form-container {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  max-width: 600px;
+  transition: var(--transition);
+}
+
+.add-form-container:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.add-form-container h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.form-group input {
+  padding: 0.8rem;
+  border: 1px solid #ced4da;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(15, 76, 92, 0.2);
+}
+
+.row-group {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.half-width {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .row-group {
+    flex-direction: column;
+  }
+}

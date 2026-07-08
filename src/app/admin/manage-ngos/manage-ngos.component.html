@@ -1,0 +1,89 @@
+<div class="manage-container">
+  <div class="header-actions">
+    <h2>Manage NGOs</h2>
+  </div>
+
+  <div class="table-responsive">
+    <table class="ngo-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Max Slots</th>
+          <th>Slots Taken</th>
+          <th>Cutoff Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ngo of ngos$ | async">
+          <ng-container *ngIf="editingNgoId !== ngo.id">
+            <td>{{ngo.name}}</td>
+            <td>{{ngo.description}}</td>
+            <td>{{ngo.date | date}}</td>
+            <td>{{ngo.location}}</td>
+            <td>{{ngo.maxSlots}}</td>
+            <td>{{ngo.slotsTaken}}</td>
+            <td>{{ngo.cutoffDateTime | date:'short'}}</td>
+            <td class="actions">
+              <button class="btn-edit" (click)="editNgo(ngo)">Edit</button>
+              <button class="btn-delete" (click)="deleteNgo(ngo.id)">Delete</button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="editingNgoId === ngo.id">
+            <td><input [(ngModel)]="ngo.name" type="text"></td>
+            <td><input [(ngModel)]="ngo.description" type="text"></td>
+            <td><input [(ngModel)]="ngo.date" type="date"></td>
+            <td><input [(ngModel)]="ngo.location" type="text"></td>
+            <td><input [(ngModel)]="ngo.maxSlots" type="number"></td>
+            <td><input [(ngModel)]="ngo.slotsTaken" type="number"></td>
+            <td><input [(ngModel)]="ngo.cutoffDateTime" type="datetime-local"></td>
+            <td class="actions">
+              <button class="btn-save" (click)="saveNgo(ngo)">Save</button>
+              <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="add-form-container">
+    <h3>Add New NGO</h3>
+    <form (ngSubmit)="addNgo()" class="add-form">
+      <div class="form-group">
+        <label>Name</label>
+        <input name="name" [(ngModel)]="newNgo.name" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input name="description" [(ngModel)]="newNgo.description" required>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" name="date" [(ngModel)]="newNgo.date" required>
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input name="location" [(ngModel)]="newNgo.location" required>
+      </div>
+      <div class="form-group row-group">
+        <div class="half-width">
+          <label>Max Slots</label>
+          <input type="number" name="maxSlots" [(ngModel)]="newNgo.maxSlots" required>
+        </div>
+        <div class="half-width">
+          <label>Slots Taken</label>
+          <input type="number" name="slotsTaken" [(ngModel)]="newNgo.slotsTaken" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cutoff Date & Time</label>
+        <input type="datetime-local" name="cutoffDateTime" [(ngModel)]="newNgo.cutoffDateTime" required>
+      </div>
+      <button type="submit" class="btn-add">Add NGO</button>
+    </form>
+  </div>
+</div>
