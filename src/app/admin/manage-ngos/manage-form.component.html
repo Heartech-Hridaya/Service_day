@@ -1,0 +1,58 @@
+<div class="manage-container form-container">
+  <div class="header-actions">
+    <h2>{{ isEdit ? 'Edit NGO' : 'Add New NGO' }}</h2>
+  </div>
+
+  <div class="panel add-form-container">
+    <form (ngSubmit)="saveNgo()" class="add-form">
+      <div class="form-group image-upload-group">
+        <label>Activity Image</label>
+        <div class="image-preview" *ngIf="imagePreview">
+          <img [src]="imagePreview" alt="Preview">
+        </div>
+        <input type="file" accept="image/*" (change)="onImageChange($event)" class="file-input">
+      </div>
+
+      <div class="form-group">
+        <label>Name <span class="required">*</span></label>
+        <input name="name" [(ngModel)]="ngo.name" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input name="description" [(ngModel)]="ngo.description">
+      </div>
+      <div class="form-group row-group">
+        <div class="half-width">
+          <label>Date <span class="required">*</span></label>
+          <input type="date" name="date" [(ngModel)]="ngo.date" required>
+        </div>
+        <div class="half-width">
+          <label>Time <span class="required">*</span></label>
+          <input type="time" name="serviceTime" [(ngModel)]="ngo.serviceTime" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input name="location" [(ngModel)]="ngo.location">
+      </div>
+      <div class="form-group row-group">
+        <div class="half-width">
+          <label>Max Slots</label>
+          <input type="number" name="maxSlots" [(ngModel)]="ngo.maxSlots">
+        </div>
+        <div class="half-width">
+          <label>Slots Taken</label>
+          <input type="number" name="slotsTaken" [(ngModel)]="ngo.slotsTaken">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Cutoff Date &amp; Time</label>
+        <input type="datetime-local" name="cutoffDateTime" [(ngModel)]="ngo.cutoffDateTime">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">{{ isEdit ? 'Save Changes' : 'Create NGO' }}</button>
+        <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

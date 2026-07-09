@@ -1,0 +1,204 @@
+/* =========================================
+   Page
+   ========================================= */
+.checkin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: -1rem 0 0 0;
+}
+
+/* =========================================
+   Success Card
+   ========================================= */
+.success-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--success);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.success-icon { font-size: 3rem; line-height: 1; }
+
+.success-card h3 {
+  font-family: var(--font-heading);
+  color: var(--success);
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.success-card p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.9rem;
+  max-width: 380px;
+}
+
+/* =========================================
+   Empty State
+   ========================================= */
+.empty-state {
+  background: var(--card-bg);
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-muted);
+}
+
+.empty-svg { width: 180px; height: auto; margin-bottom: 0.5rem; }
+.empty-state h3 { color: var(--text-main); font-size: 1.1rem; margin: 0; }
+.empty-state p  { font-size: 0.9rem; margin: 0; }
+
+/* =========================================
+   Check-in Card
+   ========================================= */
+.checkin-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-main);
+}
+
+.ngo-select {
+  padding: 0.65rem 1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background: var(--bg-color);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.ngo-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* =========================================
+   Selected Info
+   ========================================= */
+.selected-info {
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.detail-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 1rem;
+  margin: 0;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.detail-item dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.detail-item dd {
+  font-size: 0.875rem;
+  color: var(--text-main);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* =========================================
+   Buttons
+   ========================================= */
+.btn-checkin {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15,94,90,0.3);
+  transition: var(--transition);
+}
+
+.btn-checkin:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15,94,90,0.4);
+}
+
+.btn-checkin:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  padding: 0.55rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.checkin-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+}

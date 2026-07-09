@@ -1,0 +1,32 @@
+<div class="notifications-container">
+  <div class="header-actions">
+    <h2>My Notifications</h2>
+    <button class="btn-cancel" (click)="markAllRead()">Mark All as Read</button>
+  </div>
+
+  <div class="panel">
+    <div class="notif-list" *ngIf="(notifications$ | async) as notes">
+      <div *ngIf="notes.length === 0" class="no-data">
+        You have no notifications.
+      </div>
+      
+      <div class="notif-item" *ngFor="let n of notes" [class.unread]="!n.read">
+        <div class="notif-content">
+          <span class="notif-icon" aria-hidden="true">
+            <ng-container *ngIf="n.type === 'reminder'">⏰</ng-container>
+            <ng-container *ngIf="n.type === 'urgent'">🚨</ng-container>
+            <ng-container *ngIf="n.type === 'broadcast'">📢</ng-container>
+            <ng-container *ngIf="n.type === 'cancellation'">❌</ng-container>
+          </span>
+          <div class="notif-body">
+            <p>{{n.message}}</p>
+            <small>{{n.timestamp | date:'medium'}}</small>
+          </div>
+        </div>
+        <div class="notif-actions" *ngIf="!n.read">
+          <button class="btn-primary btn-sm" (click)="markAsRead(n.id)">Mark as Read</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

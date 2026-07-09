@@ -1,0 +1,57 @@
+<section class="checkin-page" @fadeSlide>
+  <h2 class="page-title">🏷️ Check In to Your Activity</h2>
+  <p class="page-subtitle">Select the volunteering activity you are checking in to today.</p>
+  <div *ngIf="confirmed" class="success-card">
+    <div class="success-icon">✅</div>
+    <h3>You're checked in!</h3>
+    <p>Your arrival has been recorded for <strong>{{checkedInNgoName}}</strong>. The admin dashboard has been updated.</p>
+    <button class="btn-secondary" (click)="resetConfirmation()">Check in to another activity</button>
+  </div>
+  <ng-container *ngIf="!confirmed">
+    <ng-container *ngIf="(available$ | async) as options">
+      <div *ngIf="options.length === 0" class="empty-state">
+        <svg class="empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="40" y="40" width="120" height="80" rx="10" fill="#F7F9F8" stroke="#DDE6E5" stroke-width="2"/>
+          <circle cx="100" cy="80" r="20" fill="#DDE6E5"/>
+          <path d="M92 80 L100 72 L108 80 M100 72 L100 90" stroke="#5C6E6C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3>Nothing to check in to</h3>
+        <p>You have no pending registrations, or you've already checked in to all your activities.</p>
+      </div>
+      <div *ngIf="options.length > 0" class="checkin-card">
+        <div class="form-group">
+          <label for="ngo-select">Select Activity</label>
+          <select id="ngo-select" [(ngModel)]="selectedRegistrationId" class="ngo-select">
+            <option [ngValue]="null" disabled>— Choose an activity —</option>
+            <option *ngFor="let opt of options" [ngValue]="opt.registration.id">
+              {{opt.ngo.name}} — {{opt.ngo.date | date}} at {{opt.ngo.serviceTime}}
+            </option>
+          </select>
+        </div>
+
+        <div *ngIf="selectedRegistrationId" class="selected-info">
+          <ng-container *ngFor="let opt of options">
+            <ng-container *ngIf="opt.registration.id === selectedRegistrationId">
+              <dl class="detail-list">
+                <div class="detail-item">
+                  <dt>Location</dt>
+                  <dd>{{opt.ngo.location}}</dd>
+                </div>
+                <div class="detail-item">
+                  <dt>Date &amp; Time</dt>
+                  <dd>{{opt.ngo.date | date:'fullDate'}} at {{opt.ngo.serviceTime}}</dd>
+                </div>
+              </dl>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <button class="btn-checkin" (click)="checkIn()" [disabled]="!selectedRegistrationId">
+          ✔ Confirm Check-In
+        </button>
+        <p class="checkin-hint">Your arrival time will be recorded and visible to admins instantly.</p>
+      </div>
+
+    </ng-container>
+  </ng-container>
+</section>

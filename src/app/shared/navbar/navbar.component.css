@@ -1,0 +1,369 @@
+/* =========================================
+   Top Nav (Sticky, Primary Dark)
+   ========================================= */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-dark);
+  padding: 0 2rem;
+  height: 64px;
+  box-shadow: 0 2px 12px rgba(10, 61, 58, 0.25);
+}
+
+.logo h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+/* =========================================
+   Nav Right area
+   ========================================= */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.top-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+/* Nav links */
+.top-nav a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.45rem 0.75rem;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+  position: relative;
+  display: block;
+}
+
+.top-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+.top-nav a:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,0.08);
+}
+
+.top-nav a.active {
+  color: #ffffff;
+  background: rgba(255,255,255,0.12);
+}
+
+.top-nav a.active::after {
+  width: 100%;
+}
+
+/* =========================================
+   Logout Button
+   ========================================= */
+.logout-btn {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.85) !important;
+  font-weight: 500;
+  font-size: 0.88rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  box-shadow: none;
+}
+
+.logout-btn:hover {
+  background: rgba(255,255,255,0.18);
+  color: #ffffff !important;
+  box-shadow: none;
+  transform: none;
+}
+
+/* =========================================
+   Notification Bell
+   ========================================= */
+.notification-wrapper {
+  position: relative;
+}
+
+@keyframes wiggle {
+  0%   { transform: rotate(0deg); }
+  15%  { transform: rotate(12deg); }
+  30%  { transform: rotate(-10deg); }
+  45%  { transform: rotate(8deg); }
+  60%  { transform: rotate(-6deg); }
+  75%  { transform: rotate(4deg); }
+  90%  { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.bell-icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0.4rem;
+  color: rgba(255,255,255,0.85);
+  border-radius: 6px;
+  transition: background 0.2s ease;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+}
+
+.bell-icon:hover {
+  background: rgba(255,255,255,0.1);
+  box-shadow: none;
+  transform: none;
+}
+
+.bell-icon:active {
+  transform: scale(0.95);
+}
+
+.bell-icon.wiggle-active {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--primary-dark);
+}
+
+/* =========================================
+   Notification Dropdown
+   ========================================= */
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: var(--card-bg);
+  width: 320px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-header {
+  padding: 1rem 1.25rem;
+  background: var(--primary-dark);
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  padding: 0.9rem 1.25rem;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  background: var(--card-bg);
+  text-align: left;
+  border-radius: 0;
+  box-shadow: none;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+
+.notif-item:hover {
+  background: var(--primary-light);
+  box-shadow: none;
+  transform: none;
+}
+
+.notif-item.unread {
+  background: rgba(15, 94, 90, 0.05);
+  border-left: 3px solid var(--primary);
+}
+
+.notif-item p {
+  margin: 0 0 0.3rem;
+  font-size: 0.875rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.notif-item small {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.no-notes {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   Main Content
+   ========================================= */
+.content {
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   Responsive Nav
+   ========================================= */
+@media (max-width: 768px) {
+  .top-nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .nav-right {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .top-nav ul {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-nav a {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.55rem;
+  }
+
+  .notification-dropdown {
+    width: calc(100vw - 2rem);
+    right: -1rem;
+  }
+}
+
+/* =========================================
+   Notification Item Layout (icon + body)
+   ========================================= */
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mark-all-read {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mark-all-read:hover { text-decoration: underline; }
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.notif-item:hover { background: var(--bg-color); }
+.notif-item:last-child { border-bottom: none; }
+
+.notif-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.notif-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.notif-body p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.notif-body small {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Urgent notifications */
+.notif-urgent {
+  border-left: 3px solid var(--urgency) !important;
+  background: rgba(214, 69, 69, 0.04);
+}
+
+.notif-urgent .notif-body p { color: var(--urgency); }
+
+/* Broadcast notifications */
+.notif-broadcast {
+  border-left: 3px solid var(--accent) !important;
+  background: rgba(232, 147, 90, 0.04);
+}
+
+.notif-broadcast .notif-body p { font-weight: 600; }

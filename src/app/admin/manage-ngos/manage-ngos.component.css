@@ -1,3 +1,17 @@
+.ngo-table-img {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+.placeholder-img {
+  background-color: var(--border-color);
+}
+
 .manage-container {
   display: flex;
   flex-direction: column;
@@ -142,4 +156,103 @@ button:hover {
   .row-group {
     flex-direction: column;
   }
+}
+
+/* =========================================
+   QR Button
+   ========================================= */
+.btn-qr {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-qr:hover, .btn-qr.active {
+  background: var(--primary);
+  color: white;
+}
+
+/* =========================================
+   QR Panel
+   ========================================= */
+.qr-panel {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.qr-panel-inner {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  text-align: center;
+  position: relative;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+}
+
+.qr-panel-inner h3 {
+  font-family: var(--font-heading);
+  color: var(--primary-dark);
+  margin: 0 0 0.25rem 0;
+}
+
+.qr-subtitle {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 1.25rem 0;
+}
+
+.qr-image {
+  width: 200px;
+  height: 200px;
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius);
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.qr-payload {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.qr-payload code {
+  background: var(--bg-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.qr-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.qr-close:hover {
+  color: var(--urgency);
 }

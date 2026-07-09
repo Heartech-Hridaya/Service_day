@@ -1,0 +1,85 @@
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ngo-summary {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.ngo-detail-img {
+  width: 150px;
+  height: 150px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.ngo-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.btn-sm {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--text-muted);
+}
+
+.status-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-badge.checked {
+  background: #e6f4ea;
+  color: #1e8e3e;
+}
+
+.status-badge.pending {
+  background: #fef7e0;
+  color: #f29900;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-content textarea {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}

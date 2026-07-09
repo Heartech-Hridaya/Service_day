@@ -3,8 +3,10 @@ export interface Ngo {
   name: string;
   description: string;
   date: string;
+  serviceTime: string;
   location: string;
   maxSlots: number;
   slotsTaken: number;
   cutoffDateTime: string;
+  imageUrl?: string;
 }

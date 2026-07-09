@@ -1,0 +1,48 @@
+<div class="profile-container">
+  <div class="header-actions">
+    <h2>My Profile</h2>
+  </div>
+  <div class="panel profile-hero">
+    <div class="avatar-circle">{{ getInitials() }}</div>
+    <div class="hero-info">
+      <h3>{{ user.name || 'Volunteer' }}</h3>
+      <span class="role-badge">{{ user.role | titlecase }}</span>
+      <p class="username-tag">&#64;{{ user.username }}</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num">{{ totalRegistrations }}</span>
+        <span class="stat-lbl">Activities</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-num">{{ checkedInCount }}</span>
+        <span class="stat-lbl">Check-Ins</span>
+      </div>
+    </div>
+  </div>
+  <div class="panel profile-form-container">
+    <h3 class="panel-title">Edit Information</h3>
+    <form (ngSubmit)="saveProfile()">
+      <div class="form-group">
+        <label for="username">Username (cannot be changed)</label>
+        <input id="username" name="username" [(ngModel)]="user.username" disabled class="disabled-input">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input id="name" name="name" [(ngModel)]="user.name" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input id="email" type="email" name="email" [(ngModel)]="user.email" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" name="phone" [(ngModel)]="user.phone" placeholder="+1 234 567 8900">
+      </div>
+
+      <button type="submit" class="btn-save save-btn">💾 Save Changes</button>
+    </form>
+  </div>
+</div>

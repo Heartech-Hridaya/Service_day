@@ -1,0 +1,88 @@
+<section class="list-container">
+  <h2 class="page-title">Available Volunteering Activities</h2>
+
+  <ng-container *ngIf="(ngos$ | async) as ngos; else loading">
+    <div *ngIf="ngos.length === 0" class="empty-state">
+      <svg class="empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="20" y="40" width="160" height="110" rx="12" fill="#DDE6E5"/>
+        <rect x="20" y="40" width="160" height="32" rx="12" fill="#B8CECE"/>
+        <rect x="20" y="60" width="160" height="12" fill="#B8CECE"/>
+        <circle cx="100" cy="105" r="22" fill="#F7F9F8"/>
+        <path d="M100 93 Q104 88 108 91 Q112 88 116 91 Q120 95 116 101 Q112 107 100 113 Q88 107 84 101 Q80 95 84 91 Q88 88 92 91 Q96 88 100 93Z" fill="#B8CECE"/>
+        <rect x="55" y="58" width="8" height="20" rx="4" fill="#93AEAE"/>
+        <rect x="137" y="58" width="8" height="20" rx="4" fill="#93AEAE"/>
+      </svg>
+      <h3>No activities yet</h3>
+      <p>Check back soon — volunteering opportunities will appear here.</p>
+    </div>
+    <div class="ngo-grid" *ngIf="ngos.length > 0" [@listAnimation]="ngos.length">
+      <article class="ngo-card"
+               *ngFor="let ngo of ngos"
+               [class.card-urgent]="!isRegistrationClosed(ngo) && (ngo.maxSlots - ngo.slotsTaken) <= 2 && (ngo.maxSlots - ngo.slotsTaken) > 0"
+               [class.card-full]="isRegistrationClosed(ngo)">
+
+        <header class="card-header">
+          <h3>{{ngo.name}}</h3>
+          <span class="urgency-badge"
+                *ngIf="!isRegistrationClosed(ngo) && (ngo.maxSlots - ngo.slotsTaken) > 0 && (ngo.maxSlots - ngo.slotsTaken) <= 2"
+                [@badgeAnimation]>
+            Only {{ngo.maxSlots - ngo.slotsTaken}} left!
+          </span>
+          <span class="full-badge" *ngIf="isRegistrationClosed(ngo)">
+            {{ ngo.slotsTaken >= ngo.maxSlots ? 'Full' : 'Closed' }}
+          </span>
+        </header>
+
+        <p class="description">{{ngo.description}}</p>
+
+        <dl class="details">
+          <div class="detail-item">
+            <dt>Date</dt>
+            <dd>{{ngo.date | date}} at {{ngo.serviceTime}}</dd>
+          </div>
+          <div class="detail-item">
+            <dt>Location</dt>
+            <dd>{{ngo.location}}</dd>
+          </div>
+          <div class="detail-item">
+            <dt>Available Slots</dt>
+            <dd>{{ngo.maxSlots - ngo.slotsTaken}} / {{ngo.maxSlots}}</dd>
+          </div>
+          <div class="detail-item">
+            <dt>Register By</dt>
+            <dd>{{ngo.cutoffDateTime | date:'short'}}</dd>
+          </div>
+        </dl>
+        <div class="progress-track" role="progressbar"
+             [attr.aria-valuenow]="ngo.slotsTaken"
+             [attr.aria-valuemax]="ngo.maxSlots"
+             aria-label="Slots taken">
+          <div class="progress-fill"
+               [style.width.%]="(ngo.slotsTaken / ngo.maxSlots) * 100"
+               [class.fill-urgent]="(ngo.maxSlots - ngo.slotsTaken) <= 2"
+               [class.fill-full]="ngo.slotsTaken >= ngo.maxSlots">
+          </div>
+        </div>
+
+        <footer class="action-bar">
+          <button class="btn-register"
+                  *ngIf="!isRegistrationClosed(ngo)"
+                  (click)="register(ngo)"
+                  [attr.aria-label]="'Register for ' + ngo.name">
+            Register
+          </button>
+          <span class="closed-msg" *ngIf="isRegistrationClosed(ngo)">
+            {{ ngo.slotsTaken >= ngo.maxSlots ? 'Full' : 'Registration Closed' }}
+          </span>
+        </footer>
+      </article>
+    </div>
+
+  </ng-container>
+  <ng-template #loading>
+    <div class="ngo-grid">
+      <div class="ngo-card skeleton skeleton-card" *ngFor="let i of [1,2,3]" aria-hidden="true"></div>
+    </div>
+  </ng-template>
+
+</section>

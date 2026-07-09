@@ -1,0 +1,89 @@
+<div class="login-page" @fadeIn>
+  <aside class="login-panel">
+    <div class="panel-content">
+      <div class="brand">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="14" fill="rgba(255,255,255,0.15)"/>
+          <path d="M24 14C24 14 16 18.5 16 25.5C16 29.5 19.5 32 24 32C28.5 32 32 29.5 32 25.5C32 18.5 24 14 24 14Z" fill="white" opacity="0.9"/>
+          <path d="M19 28L24 33L29 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>Service Day</h1>
+      </div>
+      <p class="tagline">Coordinate volunteering,<br>one slot at a time.</p>
+      <svg class="hero-illustration" viewBox="0 0 280 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="60" y="70" width="160" height="130" rx="12" fill="rgba(255,255,255,0.12)"/>
+        <rect x="60" y="70" width="160" height="36" rx="12" fill="rgba(255,255,255,0.22)"/>
+        <rect x="60" y="94" width="160" height="12" fill="rgba(255,255,255,0.22)"/>
+        <circle cx="92"  cy="128" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="120" cy="128" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="148" cy="128" r="6" fill="rgba(232,147,90,0.9)"/>
+        <circle cx="176" cy="128" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="92"  cy="155" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="120" cy="155" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="148" cy="155" r="6" fill="rgba(255,255,255,0.7)"/>
+        <circle cx="176" cy="155" r="6" fill="rgba(255,255,255,0.7)"/>
+        <rect x="100" y="58" width="10" height="24" rx="5" fill="rgba(255,255,255,0.5)"/>
+        <rect x="170" y="58" width="10" height="24" rx="5" fill="rgba(255,255,255,0.5)"/>
+        <path d="M100 52 Q110 38 124 45 Q140 30 156 45 Q168 38 178 52 Q165 68 140 82 Q115 68 100 52Z" fill="rgba(255,255,255,0.18)"/>
+        <path d="M110 50 Q118 38 128 44 Q140 32 152 44 Q162 38 170 50 Q158 64 140 76 Q122 64 110 50Z" fill="rgba(255,255,255,0.85)"/>
+        <path d="M143 124 L147 129 L154 121" stroke="#E8935A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </aside>
+  <main class="login-form-side">
+    <div class="login-card" [@shake]="shakeState">
+      <div class="form-header">
+        <h2>Welcome back</h2>
+        <p class="subtitle">Sign in to your account to continue</p>
+      </div>
+
+      <div class="error-banner" *ngIf="error" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        {{error}}
+      </div>
+
+      <form (ngSubmit)="login()" novalidate>
+        <div class="form-group role-selector">
+          <label>Select Role</label>
+          <div class="segment-control">
+            <label class="segment">
+              <input type="radio" name="role" [(ngModel)]="role" value="admin">
+              <span>Admin</span>
+            </label>
+            <label class="segment">
+              <input type="radio" name="role" [(ngModel)]="role" value="employee">
+              <span>Employee</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" name="username" [(ngModel)]="username"
+                 autocomplete="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" [(ngModel)]="password"
+                 autocomplete="current-password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn-login">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Sign in
+        </button>
+      </form>
+
+      <div class="signup-link">
+        <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+      </div>
+
+      <p class="demo-hint">Demo: <code>admin / password</code> or <code>employee / password</code></p>
+    </div>
+  </main>
+
+</div>

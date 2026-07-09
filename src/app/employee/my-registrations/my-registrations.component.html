@@ -1,0 +1,80 @@
+<section class="list-container">
+  <h2 class="page-title">My Registrations</h2>
+
+  <div *ngIf="!employeeName" class="empty-state">
+    <svg class="empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="70" r="40" fill="#DDE6E5"/>
+      <circle cx="100" cy="58" r="16" fill="#B8CECE"/>
+      <path d="M60 115 Q60 90 100 90 Q140 90 140 115" fill="#B8CECE"/>
+    </svg>
+    <h3>Not logged in</h3>
+    <p>Please log in to view your registrations.</p>
+    <a class="btn-accent" routerLink="/login">Go to Login</a>
+  </div>
+
+  <ng-container *ngIf="employeeName">
+    <ng-container *ngIf="(myRegistrations$ | async) as regs; else loading">
+      <div *ngIf="regs.length === 0" class="empty-state">
+        <svg class="empty-svg" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="30" y="50" width="140" height="100" rx="10" fill="#DDE6E5"/>
+          <rect x="30" y="50" width="140" height="28" rx="10" fill="#B8CECE"/>
+          <rect x="30" y="66" width="140" height="12" fill="#B8CECE"/>
+          <path d="M85 110 L100 125 L120 100" stroke="#93AEAE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="54" y="38" width="8" height="22" rx="4" fill="#93AEAE"/>
+          <rect x="138" y="38" width="8" height="22" rx="4" fill="#93AEAE"/>
+        </svg>
+        <h3>No active registrations</h3>
+        <p>You haven't signed up for any activities yet.</p>
+        <a class="btn-accent" routerLink="/employee/list">Browse Activities</a>
+      </div>
+      <div class="ngo-grid" *ngIf="regs.length > 0" [@listAnimation]="regs.length">
+        <article class="ngo-card" *ngFor="let regView of regs">
+          <header class="card-header" *ngIf="regView.ngo">
+            <h3>{{regView.ngo.name}}</h3>
+            <span class="status-badge" [class.badge-warning]="!regView.canCancel">
+              {{ regView.canCancel ? 'Active' : 'Cutoff Passed' }}
+            </span>
+          </header>
+
+          <p class="description" *ngIf="regView.ngo">{{regView.ngo.description}}</p>
+
+          <dl class="details" *ngIf="regView.ngo">
+            <div class="detail-item">
+              <dt>Date</dt>
+              <dd>{{regView.ngo.date | date}} at {{regView.ngo.serviceTime}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt>Location</dt>
+              <dd>{{regView.ngo.location}}</dd>
+            </div>
+            <div class="detail-item">
+              <dt>Cutoff Date</dt>
+              <dd>{{regView.ngo.cutoffDateTime | date:'short'}}</dd>
+            </div>
+          </dl>
+
+          <footer class="action-bar">
+            <ng-container *ngIf="regView.canCancel">
+              <button class="btn-secondary" (click)="changeActivity(regView)"
+                      [attr.aria-label]="'Change activity from ' + regView.ngo?.name">
+                Change Activity
+              </button>
+              <button class="btn-danger" (click)="cancelRegistration(regView)"
+                      [attr.aria-label]="'Cancel registration for ' + regView.ngo?.name">
+                Cancel
+              </button>
+            </ng-container>
+            <span class="closed-msg" *ngIf="!regView.canCancel">Cannot cancel after cutoff</span>
+          </footer>
+        </article>
+      </div>
+
+    </ng-container>
+    <ng-template #loading>
+      <div class="ngo-grid">
+        <div class="ngo-card skeleton skeleton-card" *ngFor="let i of [1,2]" aria-hidden="true"></div>
+      </div>
+    </ng-template>
+
+  </ng-container>
+</section>

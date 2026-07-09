@@ -1,0 +1,89 @@
+<div class="login-page" @fadeIn>
+  <aside class="login-panel">
+    <div class="panel-content">
+      <div class="brand">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="14" fill="rgba(255,255,255,0.15)"/>
+          <path d="M24 14C24 14 16 18.5 16 25.5C16 29.5 19.5 32 24 32C28.5 32 32 29.5 32 25.5C32 18.5 24 14 24 14Z" fill="white" opacity="0.9"/>
+          <path d="M19 28L24 33L29 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>Service Day</h1>
+      </div>
+      <p class="tagline">Join our community of volunteers today.</p>
+    </div>
+  </aside>
+  <main class="login-form-side">
+    <div class="login-card">
+      <div class="form-header">
+        <h2>Create an Account</h2>
+        <p class="subtitle">Sign up to get started</p>
+      </div>
+
+      <div class="error-banner" *ngIf="error" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        {{error}}
+      </div>
+      
+      <div class="success-banner" *ngIf="success" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        Account created! Redirecting to login...
+      </div>
+
+      <form (ngSubmit)="signup()" novalidate>
+        <div class="form-group role-selector">
+          <label>Select Role</label>
+          <div class="segment-control">
+            <label class="segment">
+              <input type="radio" name="role" [(ngModel)]="role" value="admin">
+              <span>Admin</span>
+            </label>
+            <label class="segment">
+              <input type="radio" name="role" [(ngModel)]="role" value="employee">
+              <span>Employee</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" [(ngModel)]="name" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" [(ngModel)]="username" placeholder="johndoe" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" [(ngModel)]="email" placeholder="john@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" name="phone" [(ngModel)]="phone" placeholder="1234567890" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" [(ngModel)]="password" placeholder="Create a password" required>
+        </div>
+
+        <button type="submit" class="btn-login" [disabled]="success">
+          Sign Up
+        </button>
+      </form>
+
+      <div class="signup-link">
+        <p>Already have an account? <a routerLink="/login">Log in</a></p>
+      </div>
+    </div>
+  </main>
+
+</div>

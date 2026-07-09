@@ -1,0 +1,67 @@
+<div class="attendance-container">
+  <div class="header-actions">
+    <h2>Global Attendance Log</h2>
+  </div>
+  <div class="summary-row">
+    <div class="summary-chip">
+      <span class="chip-value">{{ totalCount }}</span>
+      <span class="chip-label">Total</span>
+    </div>
+    <div class="summary-chip">
+      <span class="chip-value" style="color: var(--success)">{{ checkedInCount }}</span>
+      <span class="chip-label">Checked In</span>
+    </div>
+    <div class="summary-chip">
+      <span class="chip-value" style="color: var(--accent)">{{ pendingCount }}</span>
+      <span class="chip-label">Pending</span>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <input
+      type="text"
+      [(ngModel)]="filterText"
+      (input)="onFilterChange()"
+      placeholder="Search by employee or activity name…"
+      aria-label="Filter attendance records">
+  </div>
+
+  <div class="table-responsive panel" style="padding: 0;">
+    <table class="ngo-table">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Activity</th>
+          <th>Registered At</th>
+          <th>Status</th>
+          <th>Arrival Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of filteredList$ | async">
+          <td>{{ record.registration.employeeName }}</td>
+          <td>{{ record.ngoName }}</td>
+          <td>{{ record.registration.registrationTime ? (record.registration.registrationTime | date:'short') : '—' }}</td>
+          <td>
+            <span class="status-badge" [class.checked]="record.registration.checkedIn" [class.pending]="!record.registration.checkedIn">
+              {{ record.registration.checkedIn ? '✔ Checked In' : '⏳ Pending' }}
+            </span>
+          </td>
+          <td>
+            {{ record.registration.checkedIn ? (record.registration.arrivalTime | date:'shortTime') : '—' }}
+          </td>
+          <td>
+            <button class="btn-sm"
+                    [ngClass]="record.registration.checkedIn ? 'btn-delete' : 'btn-save'"
+                    (click)="toggleCheckIn(record)">
+              {{ record.registration.checkedIn ? 'Undo' : 'Check In' }}
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="(filteredList$ | async)?.length === 0">
+          <td colspan="6" class="no-data">No records found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

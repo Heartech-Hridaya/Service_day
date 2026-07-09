@@ -3,4 +3,6 @@ export interface Registration {
   ngoId: number;
   employeeName: string;
   checkedIn: boolean;
+  arrivalTime?: string;
+  registrationTime?: string;
 }

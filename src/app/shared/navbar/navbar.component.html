@@ -1,0 +1,80 @@
+<header class="top-nav">
+  <div class="logo">
+    <h1>Service Day</h1>
+  </div>
+
+  <nav class="nav-right" *ngIf="(currentUser$ | async) as user" aria-label="Main Navigation">
+    <ul>
+      <li *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/list" routerLinkActive="active">Available NGOs</a>
+      </li>
+      <li *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/my-registrations" routerLinkActive="active">My Registrations</a>
+      </li>
+      <li *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/check-in" routerLinkActive="active">Check In</a>
+      </li>
+      <li *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/profile" routerLinkActive="active">My Profile</a>
+      </li>
+      <li *ngIf="user.role === 'employee'">
+        <a routerLink="/employee/notifications" routerLinkActive="active">Notifications</a>
+      </li>
+      <li *ngIf="user.role === 'admin'">
+        <a routerLink="/admin/manage" routerLinkActive="active">Manage NGOs</a>
+      </li>
+      <li *ngIf="user.role === 'admin'">
+        <a routerLink="/admin/communications" routerLinkActive="active">Communications</a>
+      </li>
+      <li *ngIf="user.role === 'admin'">
+        <a routerLink="/admin/attendance" routerLinkActive="active">Attendance</a>
+      </li>
+      <li *ngIf="user.role === 'admin'">
+        <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+    </ul>
+
+    <div class="notification-wrapper">
+      <button
+        class="bell-icon"
+        [class.wiggle-active]="bellWiggle"
+        (click)="toggleNotifications()"
+        aria-label="Toggle notifications">
+        <span aria-hidden="true">🔔</span>
+        <span class="badge" *ngIf="(unreadCount$ | async) as count" [attr.aria-label]="count + ' unread notifications'">{{count}}</span>
+      </button>
+
+      <div class="notification-dropdown" *ngIf="showNotifications" [@dropdownAnimation]>
+        <div class="notif-header">
+          <span>Notifications</span>
+          <button class="mark-all-read" (click)="markAllRead()" aria-label="Mark all as read">Mark all read</button>
+        </div>
+        <div class="notif-list" *ngIf="(notifications$ | async) as notes">
+          <button class="notif-item"
+                  *ngFor="let n of notes"
+                  [class.unread]="!n.read"
+                  [class.notif-urgent]="n.type === 'urgent'"
+                  [class.notif-broadcast]="n.type === 'broadcast'"
+                  (click)="markAsRead(n.id)"
+                  [attr.aria-label]="'Notification: ' + n.message">
+            <span class="notif-icon" aria-hidden="true">
+              <ng-container *ngIf="n.type === 'reminder'">⏰</ng-container>
+              <ng-container *ngIf="n.type === 'urgent'">🚨</ng-container>
+              <ng-container *ngIf="n.type === 'broadcast'">📢</ng-container>
+              <ng-container *ngIf="n.type === 'cancellation'">❌</ng-container>
+            </span>
+            <div class="notif-body">
+              <p>{{n.message}}</p>
+              <small>{{n.timestamp | date:'short'}}</small>
+            </div>
+          </button>
+          <div *ngIf="notes.length === 0" class="no-notes">No notifications yet</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="logout-btn" (click)="logout()" aria-label="Logout">
+      Logout ({{user.name}})
+    </button>
+  </nav>
+</header>

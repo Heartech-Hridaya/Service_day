@@ -1,0 +1,85 @@
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.panel {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.add-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.add-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.add-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-family: inherit;
+}
+
+.row-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.required {
+  color: var(--urgency);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-save, .btn-cancel {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-save {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-cancel {
+  background: var(--bg-color);
+  color: var(--text-muted);
+}
+
+.image-upload-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.file-input {
+  border: none !important;
+  padding: 0 !important;
+}

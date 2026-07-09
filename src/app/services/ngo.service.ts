@@ -54,4 +54,37 @@ export class NgoService {
     const newNgos = currentNgos.filter(n => n.id !== id);
     this.ngosSubject.next(newNgos);
   }
+
+  isRegistrationClosed(ngo: Ngo): boolean {
+    if (ngo.slotsTaken >= ngo.maxSlots) {
+      return true;
+    }
+    return this.isCutoffPassed(ngo);
+  }
+
+  isCutoffPassed(ngo: Ngo): boolean {
+    const now = new Date();
+    const cutoff = new Date(ngo.cutoffDateTime);
+    return now > cutoff;
+  }
+
+  incrementSlots(ngoId: number) {
+    const currentNgos = this.ngosSubject.value;
+    const index = currentNgos.findIndex(n => n.id === ngoId);
+    if (index !== -1 && currentNgos[index].slotsTaken < currentNgos[index].maxSlots) {
+      const newNgos = [...currentNgos];
+      newNgos[index] = { ...newNgos[index], slotsTaken: newNgos[index].slotsTaken + 1 };
+      this.ngosSubject.next(newNgos);
+    }
+  }
+
+  decrementSlots(ngoId: number) {
+    const currentNgos = this.ngosSubject.value;
+    const index = currentNgos.findIndex(n => n.id === ngoId);
+    if (index !== -1 && currentNgos[index].slotsTaken > 0) {
+      const newNgos = [...currentNgos];
+      newNgos[index] = { ...newNgos[index], slotsTaken: newNgos[index].slotsTaken - 1 };
+      this.ngosSubject.next(newNgos);
+    }
+  }
 }

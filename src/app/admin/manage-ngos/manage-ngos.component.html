@@ -1,6 +1,7 @@
 <div class="manage-container">
   <div class="header-actions">
     <h2>Manage NGOs</h2>
+    <button class="btn-primary" routerLink="/admin/manage/new">+ Add NGO</button>
   </div>
 
   <div class="table-responsive">
@@ -10,6 +11,7 @@
           <th>Name</th>
           <th>Description</th>
           <th>Date</th>
+          <th>Time</th>
           <th>Location</th>
           <th>Max Slots</th>
           <th>Slots Taken</th>
@@ -17,73 +19,36 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody [@tableAnimation]="(ngos$ | async)?.length">
         <tr *ngFor="let ngo of ngos$ | async">
-          <ng-container *ngIf="editingNgoId !== ngo.id">
-            <td>{{ngo.name}}</td>
-            <td>{{ngo.description}}</td>
-            <td>{{ngo.date | date}}</td>
-            <td>{{ngo.location}}</td>
-            <td>{{ngo.maxSlots}}</td>
-            <td>{{ngo.slotsTaken}}</td>
-            <td>{{ngo.cutoffDateTime | date:'short'}}</td>
-            <td class="actions">
-              <button class="btn-edit" (click)="editNgo(ngo)">Edit</button>
-              <button class="btn-delete" (click)="deleteNgo(ngo.id)">Delete</button>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="editingNgoId === ngo.id">
-            <td><input [(ngModel)]="ngo.name" type="text"></td>
-            <td><input [(ngModel)]="ngo.description" type="text"></td>
-            <td><input [(ngModel)]="ngo.date" type="date"></td>
-            <td><input [(ngModel)]="ngo.location" type="text"></td>
-            <td><input [(ngModel)]="ngo.maxSlots" type="number"></td>
-            <td><input [(ngModel)]="ngo.slotsTaken" type="number"></td>
-            <td><input [(ngModel)]="ngo.cutoffDateTime" type="datetime-local"></td>
-            <td class="actions">
-              <button class="btn-save" (click)="saveNgo(ngo)">Save</button>
-              <button class="btn-cancel" (click)="cancelEdit()">Cancel</button>
-            </td>
-          </ng-container>
+          <td>
+            <img *ngIf="ngo.imageUrl" [src]="ngo.imageUrl" alt="NGO Image" class="ngo-table-img">
+            <div *ngIf="!ngo.imageUrl" class="ngo-table-img placeholder-img"></div>
+            {{ngo.name}}
+          </td>
+          <td>{{ngo.description}}</td>
+          <td>{{ngo.date | date}}</td>
+          <td>{{ngo.serviceTime}}</td>
+          <td>{{ngo.location}}</td>
+          <td>{{ngo.maxSlots}}</td>
+          <td>{{ngo.slotsTaken}}</td>
+          <td>{{ngo.cutoffDateTime | date:'short'}}</td>
+          <td class="actions">
+            <button class="btn-edit"   [routerLink]="['/admin/manage/edit', ngo.id]">Edit</button>
+            <button class="btn-qr"     (click)="generateQr(ngo)" [class.active]="qrNgoId === ngo.id">QR</button>
+            <button class="btn-delete" (click)="deleteNgo(ngo.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <div class="add-form-container">
-    <h3>Add New NGO</h3>
-    <form (ngSubmit)="addNgo()" class="add-form">
-      <div class="form-group">
-        <label>Name</label>
-        <input name="name" [(ngModel)]="newNgo.name" required>
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <input name="description" [(ngModel)]="newNgo.description" required>
-      </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" name="date" [(ngModel)]="newNgo.date" required>
-      </div>
-      <div class="form-group">
-        <label>Location</label>
-        <input name="location" [(ngModel)]="newNgo.location" required>
-      </div>
-      <div class="form-group row-group">
-        <div class="half-width">
-          <label>Max Slots</label>
-          <input type="number" name="maxSlots" [(ngModel)]="newNgo.maxSlots" required>
-        </div>
-        <div class="half-width">
-          <label>Slots Taken</label>
-          <input type="number" name="slotsTaken" [(ngModel)]="newNgo.slotsTaken" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Cutoff Date & Time</label>
-        <input type="datetime-local" name="cutoffDateTime" [(ngModel)]="newNgo.cutoffDateTime" required>
-      </div>
-      <button type="submit" class="btn-add">Add NGO</button>
-    </form>
+  <div class="qr-panel" *ngIf="qrNgoId && qrDataUrl" role="dialog" aria-label="QR Code">
+    <div class="qr-panel-inner">
+      <button class="qr-close" (click)="closeQr()" aria-label="Close QR panel">✕</button>
+      <h3>Check-In QR Code</h3>
+      <p class="qr-subtitle">Employees scan this to check in to the activity.</p>
+      <img [src]="qrDataUrl" alt="QR Code" class="qr-image">
+      <p class="qr-payload"><code>{{ '{"ngoId":' + qrNgoId + '}' }}</code></p>
+    </div>
   </div>
 </div>

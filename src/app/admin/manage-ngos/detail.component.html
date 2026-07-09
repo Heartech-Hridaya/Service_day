@@ -1,0 +1,71 @@
+<div class="detail-container" *ngIf="(ngo$ | async) as ngo">
+  <div class="header-actions">
+    <h2>{{ngo.name}} - Details</h2>
+    <button class="btn-cancel" routerLink="/admin/manage">Back</button>
+  </div>
+
+  <div class="panel">
+    <div class="ngo-summary">
+      <img *ngIf="ngo.imageUrl" [src]="ngo.imageUrl" class="ngo-detail-img">
+      <div class="ngo-info">
+        <p><strong>Date:</strong> {{ngo.date | date}} at {{ngo.serviceTime}}</p>
+        <p><strong>Location:</strong> {{ngo.location}}</p>
+        <p><strong>Slots:</strong> {{ngo.slotsTaken}} / {{ngo.maxSlots}} booked</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Registered Employees</h3>
+  <div class="table-responsive panel">
+    <table class="ngo-table">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Registered At</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reg of registrations$ | async">
+          <ng-container *ngIf="editingRegId !== reg.id">
+            <td>{{reg.employeeName}}</td>
+            <td>{{reg.registrationTime | date:'short'}}</td>
+            <td>
+              <span class="status-badge" [class.checked]="reg.checkedIn" [class.pending]="!reg.checkedIn">
+                {{reg.checkedIn ? 'Checked In' : 'Pending'}}
+              </span>
+            </td>
+            <td class="actions">
+              <button class="btn-edit btn-sm" (click)="openNotification(reg.employeeName)">Message</button>
+              <button class="btn-edit btn-sm" (click)="startEdit(reg)">Edit</button>
+              <button class="btn-delete btn-sm" (click)="removeRegistration(reg)">Remove</button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="editingRegId === reg.id">
+            <td><input [(ngModel)]="editingRegName"></td>
+            <td>{{reg.registrationTime | date:'short'}}</td>
+            <td>{{reg.checkedIn ? 'Checked In' : 'Pending'}}</td>
+            <td class="actions">
+              <button class="btn-save btn-sm" (click)="saveEdit(reg)">Save</button>
+              <button class="btn-cancel btn-sm" (click)="cancelEdit()">Cancel</button>
+            </td>
+          </ng-container>
+        </tr>
+        <tr *ngIf="(registrations$ | async)?.length === 0">
+          <td colspan="4" class="no-data">No employees registered yet.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="notificationEmployee">
+  <div class="modal-content">
+    <h3>Send Message to {{notificationEmployee}}</h3>
+    <textarea [(ngModel)]="notificationMessage" placeholder="Type your message..." rows="4"></textarea>
+    <div class="modal-actions">
+      <button class="btn-save" (click)="sendNotification()">Send</button>
+      <button class="btn-cancel" (click)="closeNotification()">Cancel</button>
+    </div>
+  </div>
+</div>
