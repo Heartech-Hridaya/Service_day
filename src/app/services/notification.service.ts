@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppNotification } from '../models/notification';
@@ -19,15 +20,23 @@ export interface ScheduledMessage {
 export class NotificationService {
   private notificationsSubject = new BehaviorSubject<AppNotification[]>([]);
   public notifications$ = this.notificationsSubject.asObservable();
-  private nextId = 1;
+  private apiUrl = 'http://localhost:3000/api/notifications';
 
   private scheduledMessagesSubject = new BehaviorSubject<ScheduledMessage[]>([]);
   public scheduledMessages$ = this.scheduledMessagesSubject.asObservable();
   private nextSchedId = 1;
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.loadInitialData();
     // Check scheduled messages every 10 seconds
     setInterval(() => this.checkScheduledMessages(), 10000);
+  }
+
+  private loadInitialData() {
+    this.http.get<AppNotification[]>(this.apiUrl).subscribe({
+      next: (data) => this.notificationsSubject.next(data),
+      error: (err) => console.error('Failed to load notifications', err)
+    });
   }
 
   private checkScheduledMessages() {
@@ -81,9 +90,13 @@ export class NotificationService {
   }
 
   addNotification(notification: AppNotification) {
-    const current = this.notificationsSubject.value;
-    notification.id = this.nextId++;
-    this.notificationsSubject.next([notification, ...current]);
+    this.http.post<AppNotification>(this.apiUrl, notification).subscribe({
+      next: (newNote) => {
+        const current = this.notificationsSubject.value;
+        this.notificationsSubject.next([newNote, ...current]);
+      },
+      error: (err) => console.error('Failed to add notification', err)
+    });
   }
 
   /** UC5 — create a broadcast notification visible to all employees */
@@ -99,12 +112,22 @@ export class NotificationService {
 
   markAsRead(id: number) {
     const current = this.notificationsSubject.value;
-    const updated = current.map(n => n.id === id ? { ...n, read: true } : n);
-    this.notificationsSubject.next(updated);
+    const notification = current.find(n => n.id === id);
+    if (!notification) return;
+
+    const updated = { ...notification, read: true };
+    this.http.put<AppNotification>(`${this.apiUrl}/${id}`, updated).subscribe({
+      next: (res) => {
+        const newNotes = current.map(n => n.id === id ? res : n);
+        this.notificationsSubject.next(newNotes);
+      },
+      error: (err) => console.error('Failed to mark as read', err)
+    });
   }
 
   markAllRead() {
-    const updated = this.notificationsSubject.value.map(n => ({ ...n, read: true }));
-    this.notificationsSubject.next(updated);
+    const current = this.notificationsSubject.value;
+    const unreadNotes = current.filter(n => !n.read);
+    unreadNotes.forEach(n => this.markAsRead(n.id));
   }
 }

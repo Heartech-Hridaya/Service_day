@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Registration } from '../models/registration';
 
@@ -8,21 +9,41 @@ import { Registration } from '../models/registration';
 export class RegistrationService {
   private registrationsSubject = new BehaviorSubject<Registration[]>([]);
   public registrations$ = this.registrationsSubject.asObservable();
+  private apiUrl = 'http://localhost:3000/api/registrations';
+
+  constructor(private http: HttpClient) {
+    this.loadInitialData();
+  }
+
+  private loadInitialData() {
+    this.http.get<Registration[]>(this.apiUrl).subscribe({
+      next: (data) => this.registrationsSubject.next(data),
+      error: (err) => console.error('Failed to load registrations', err)
+    });
+  }
 
   getRegistrations(): Observable<Registration[]> {
     return this.registrations$;
   }
 
   addRegistration(registration: Registration) {
-    const currentRegs = this.registrationsSubject.value;
-    const newId = currentRegs.length > 0 ? Math.max(...currentRegs.map(r => r.id)) + 1 : 1;
-    const newReg: Registration = { ...registration, id: newId, registrationTime: new Date().toISOString() };
-    this.registrationsSubject.next([...currentRegs, newReg]);
+    this.http.post<Registration>(this.apiUrl, registration).subscribe({
+      next: (newReg) => {
+        const currentRegs = this.registrationsSubject.value;
+        this.registrationsSubject.next([...currentRegs, newReg]);
+      },
+      error: (err) => console.error('Failed to add registration', err)
+    });
   }
 
   cancelRegistration(id: number) {
-    const currentRegs = this.registrationsSubject.value;
-    this.registrationsSubject.next(currentRegs.filter(r => r.id !== id));
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe({
+      next: () => {
+        const currentRegs = this.registrationsSubject.value;
+        this.registrationsSubject.next(currentRegs.filter(r => r.id !== id));
+      },
+      error: (err) => console.error('Failed to cancel registration', err)
+    });
   }
 
   /** UC6 — record an employee's check-in arrival time */
@@ -30,13 +51,24 @@ export class RegistrationService {
     const currentRegs = this.registrationsSubject.value;
     const idx = currentRegs.findIndex(r => r.id === registrationId);
     if (idx === -1) return;
-    const updated = [...currentRegs];
-    updated[idx] = {
-      ...updated[idx],
+
+    const updated = {
+      ...currentRegs[idx],
       checkedIn: true,
       arrivalTime: new Date().toISOString()
     };
-    this.registrationsSubject.next(updated);
+
+    this.http.put<Registration>(`${this.apiUrl}/${registrationId}`, updated).subscribe({
+      next: (res) => {
+        const newRegs = [...this.registrationsSubject.value];
+        const index = newRegs.findIndex(r => r.id === res.id);
+        if (index !== -1) {
+          newRegs[index] = res;
+          this.registrationsSubject.next(newRegs);
+        }
+      },
+      error: (err) => console.error('Failed to check in', err)
+    });
   }
 
   /** B1 helper — check if an employee already registered for a given NGO */

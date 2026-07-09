@@ -19,6 +19,7 @@ export class AuthService {
   
   private users: (User & {password: string})[] = [];
   private usersLoaded = false;
+  private apiUrl = 'http://localhost:3000/api/users';
 
   constructor(private http: HttpClient, private router: Router) { 
     this.loadUsers().subscribe();
@@ -26,7 +27,7 @@ export class AuthService {
 
   private loadUsers(): Observable<any> {
     if (this.usersLoaded) return of(this.users);
-    return this.http.get<(User & {password: string})[]>('/assets/mock-data/users.json').pipe(
+    return this.http.get<(User & {password: string})[]>(this.apiUrl).pipe(
       tap(users => {
         this.users = users;
         this.usersLoaded = true;
@@ -35,12 +36,10 @@ export class AuthService {
   }
 
   login(username: string, password: string, role: 'admin' | 'employee'): Observable<boolean> {
-    return this.loadUsers().pipe(
-      map(() => {
-        const user = this.users.find(u => u.username === username && u.password === password && u.role === role);
+    return this.http.post<User>(`${this.apiUrl}/login`, { username, password, role }).pipe(
+      map(user => {
         if (user) {
-          const { password: _, ...userWithoutPassword } = user;
-          this.currentUserSubject.next(userWithoutPassword);
+          this.currentUserSubject.next(user);
           return true;
         }
         return false;
@@ -50,15 +49,8 @@ export class AuthService {
   }
 
   signup(user: User & {password: string}): Observable<boolean> {
-    return this.loadUsers().pipe(
-      map(() => {
-        const exists = this.users.find(u => u.username === user.username);
-        if (exists) {
-          return false;
-        }
-        this.users.push(user);
-        return true;
-      }),
+    return this.http.post<any>(this.apiUrl, user).pipe(
+      map(() => true),
       catchError(() => of(false))
     );
   }

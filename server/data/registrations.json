@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "ngoId": 2,
+    "employeeName": "John Employee",
+    "checkedIn": true,
+    "registrationTime": "2026-07-09T04:41:14.244Z",
+    "arrivalTime": "2026-07-09T04:41:21.447Z"
+  }
+]
